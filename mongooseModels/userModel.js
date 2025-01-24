@@ -13,13 +13,13 @@ const userSchema=new mongoose.Schema({
     email:{
         type:String,
         required:true,
-        unique: true,
-        match: [ /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, 'Please enter a valid email address' ],
+        unique: [true,"user is already exist"],
+        validate: [ validator.isEmail, 'Please enter a valid email address' ],
 
     },
     password:{
         type:String,
-        required: true,
+        required:  [true,"password is required"],
         minlength: [8, 'Password should be at least 8 characters long']  // Minimum length of 6 characters for the password
     },
     profilePicture:{
@@ -28,13 +28,13 @@ const userSchema=new mongoose.Schema({
     },
     birthdate: {
         type: Date,
-        required: true
+        required: [true,"birthdate is required"]
     },
     phoneNumber: {
         type: String,
-        required: true,
-        unique: true,  // Ensure phone numbers are unique
-        validate:[validator.phoneNumber,'please enter a valid phone number']
+        required: [true,"phone number is required"],
+        unique:[true,"phone number  is already exist"],
+        validate:[validator.isMobilePhone,'please enter a valid phone number']
     }
 
 
@@ -43,4 +43,4 @@ const userSchema=new mongoose.Schema({
 )
 
 
-const user=mongoose.model("User",userSchema);
+module.exports=mongoose.model("User",userSchema);
